@@ -26,7 +26,7 @@ public class ApplicationConfig {
   public UserDetailsService userDetailsService() {
     //load user-specific data by username.
     return username -> repository.findByEmail(username)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
   }
 
   // An AuthenticationProvider is responsible for processing a specific type of Authentication request.
