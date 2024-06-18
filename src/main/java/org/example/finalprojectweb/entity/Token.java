@@ -16,19 +16,19 @@ public class Token {
 
   @Id
   @GeneratedValue
-  public Integer id;
+  private Integer id;
 
   @Column(unique = true)
-  public String token;
+  private String token;
 
   @Enumerated(EnumType.STRING)
-  public TokenType tokenType = TokenType.BEARER;
+  private TokenType tokenType = TokenType.BEARER;
 
-  public boolean revoked;
+  private boolean revoked;
 
-  public boolean expired;
+  private boolean expired;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  public User user;
+  @ManyToOne(fetch = FetchType.LAZY) // Many tokens belong to one user
+  @JoinColumn(name = "user_id") // Name of the foreign key column in the Token table
+  private User user; // Reference to the user
 }

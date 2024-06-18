@@ -39,6 +39,13 @@ public class UserServiceImpl implements UserService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public UserDTO signUp(UserDTO userDTO) {
+        // Set the role to CUSTOMER
+        userDTO.setRole(User.Role.CUSTOMER.name());
+        return createUser(userDTO);
+    }
     @Override
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();

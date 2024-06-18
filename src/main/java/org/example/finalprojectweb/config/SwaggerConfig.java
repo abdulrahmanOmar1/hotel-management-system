@@ -1,14 +1,14 @@
 package org.example.finalprojectweb.config;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.util.Collections;
 
@@ -18,10 +18,10 @@ public class SwaggerConfig {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     // Information about the API
     private Info apiInfo(){
-        return new Info().title("order - management").description("E-Commerce Application ").version("1")
-                .contact(new Contact().name("Mohammad Haythem")
-                        .url( "www.haytham-Tecnologies.ps")
-                        .email( "mohd.saleh1191@gmail.com"));
+        return new Info().title("hotel - management").description("Hotel Application ").version("1")
+                .contact(new Contact().name("Yousef Injass, Abdulrahman Omar")
+                        .url( "www.abood-Tecnologies.ps")
+                        .email( "injasyousef5@gmail.com"));
     }
 
     // Bean that configures the OpenAPI documentation generator

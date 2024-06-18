@@ -1,8 +1,8 @@
 package org.example.finalprojectweb.config;
 
 
-import com.example.ordermanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.example.finalprojectweb.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -49,8 +50,7 @@ public class ApplicationConfig {
   // PasswordEncoder is an interface that specifies a cryptographic hashing strategy for passwords.
   @Bean
   public PasswordEncoder passwordEncoder() {
-    // BCryptPasswordEncoder implements PasswordEncoder, it hashes the passwords using BCrypt.
-    return new BCryptPasswordEncoder();
+    return NoOpPasswordEncoder.getInstance();
   }
 
 }

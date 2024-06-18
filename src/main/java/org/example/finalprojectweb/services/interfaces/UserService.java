@@ -14,4 +14,6 @@ public interface UserService {
     void deleteUser(Long id);
     List<UserDTO> getAllUsers();
     Optional<User> Login(String email, String password);
+    UserDTO signUp(UserDTO userDTO);
+
 }
