@@ -1,19 +1,17 @@
 package org.example.finalprojectweb.services.implementations;
 
-
 import org.example.finalprojectweb.DTO.ReservationDTO;
-import org.example.finalprojectweb.DTO.UserDTO;
 import org.example.finalprojectweb.entity.Reservation;
 import org.example.finalprojectweb.entity.Room;
 import org.example.finalprojectweb.entity.User;
 import org.example.finalprojectweb.exceptions.ResourceNotFoundException;
+import org.example.finalprojectweb.exceptions.RoomAlreadyReservedException;
 import org.example.finalprojectweb.repository.ReservationRepository;
 import org.example.finalprojectweb.repository.RoomRepository;
 import org.example.finalprojectweb.repository.UserRepository;
 import org.example.finalprojectweb.services.interfaces.ReservationService;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +19,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private final ReservationRepository reservationRepository;
     private final RoomRepository roomRepository;
@@ -37,7 +34,17 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
+        Room room = getRoomById(reservationDTO.getRoomId());
+
+        // تحقق من ما إذا كانت الغرفة محجوزة بالفعل في الفترة المحددة
+        List<Reservation> overlappingReservations = reservationRepository.findOverlappingReservations(room.getId(), reservationDTO.getCheckInDate(), reservationDTO.getCheckOutDate());
+        if (!overlappingReservations.isEmpty()) {
+            throw new RoomAlreadyReservedException("Room is already reserved for the selected period.");
+        }
+
         Reservation reservation = convertToEntity(reservationDTO);
+        reservation.setStatus(Reservation.Status.PENDING);
+
         Reservation newReservation = reservationRepository.save(reservation);
         return convertToDto(newReservation);
     }
@@ -67,6 +74,7 @@ public class ReservationServiceImpl implements ReservationService {
     public void deleteReservation(Long id) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", id));
+
         reservationRepository.delete(reservation);
     }
 
@@ -77,6 +85,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
     @Override
     public List<ReservationDTO> searchReservationsByCustomerName(String customerName) {
         List<User> users = userRepository.findByName(customerName);
@@ -95,10 +104,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationDTO> searchReservationsByCustomerId(Long customerId) {
-    Optional<User> user=userRepository.findById(customerId);
-    if (!user.isPresent()){
-        throw new ResourceNotFoundException("User", "name", customerId);
-    }
+        Optional<User> user = userRepository.findById(customerId);
+        if (!user.isPresent()) {
+            throw new ResourceNotFoundException("User", "id", customerId);
+        }
         List<Reservation> reservations = reservationRepository.findByCustomerId(customerId);
         if (reservations.isEmpty()) {
             throw new ResourceNotFoundException("Reservation", "customerId", customerId);
@@ -107,24 +116,31 @@ public class ReservationServiceImpl implements ReservationService {
         return reservations.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
-
     }
+
     @Override
     public List<ReservationDTO> searchReservationsByDate(Date date) {
         List<Reservation> reservations = reservationRepository.findByCheckInDateLessThanEqualAndCheckOutDateGreaterThanEqual(date, date);
-        List<Reservation> reservations2 = reservationRepository.findByCheckInDateGreaterThanEqualAndCheckOutDateLessThanEqual(date, date);
-        List<Reservation> reservations3 = reservationRepository.findByCheckInDateLessThanEqualAndCheckOutDateGreaterThanEqual(date, date);
-        reservations.addAll(reservations2);
-        reservations.addAll(reservations3);
-        if (reservations.isEmpty()) {
-            throw new ResourceNotFoundException("Reservation", "date", date.getTime());
-        }
-
         return reservations.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void approveReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", reservationId));
+        reservation.setStatus(Reservation.Status.APPROVED);
+        reservationRepository.save(reservation);
+    }
+
+    @Override
+    public void rejectReservation(Long reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", reservationId));
+        reservation.setStatus(Reservation.Status.REJECTED);
+        reservationRepository.save(reservation);
+    }
 
     private ReservationDTO convertToDto(Reservation reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();
@@ -135,19 +151,23 @@ public class ReservationServiceImpl implements ReservationService {
         reservationDTO.setCheckOutDate(reservation.getCheckOutDate());
         reservationDTO.setNumberOfDays(reservation.getNumberOfDays());
         reservationDTO.setPrice(reservation.getPrice());
+        reservationDTO.setStatus(reservation.getStatus().name());
         return reservationDTO;
     }
 
     private Reservation convertToEntity(ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation();
-        // Assuming there are methods to get Room and User by id
         reservation.setRoom(getRoomById(reservationDTO.getRoomId()));
         reservation.setCustomer(getUserById(reservationDTO.getCustomerId()));
         reservation.setCheckInDate(reservationDTO.getCheckInDate());
         reservation.setCheckOutDate(reservationDTO.getCheckOutDate());
         reservation.setNumberOfDays(reservationDTO.getNumberOfDays());
         reservation.setPrice(reservationDTO.getPrice());
-
+        if (reservationDTO.getStatus() != null) {
+            reservation.setStatus(Reservation.Status.valueOf(reservationDTO.getStatus()));
+        } else {
+            reservation.setStatus(Reservation.Status.PENDING); // تعيين الحالة إلى PENDING إذا كانت الحالة غير محددة
+        }
         return reservation;
     }
 

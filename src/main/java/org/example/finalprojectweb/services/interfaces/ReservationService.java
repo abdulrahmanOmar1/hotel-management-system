@@ -1,12 +1,10 @@
 package org.example.finalprojectweb.services.interfaces;
 
-
 import org.example.finalprojectweb.DTO.ReservationDTO;
+import org.example.finalprojectweb.DTO.RoomInfoDTO;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface ReservationService {
     ReservationDTO createReservation(ReservationDTO reservationDTO);
@@ -17,6 +15,6 @@ public interface ReservationService {
     List<ReservationDTO> searchReservationsByCustomerName(String customerName);
     List<ReservationDTO> searchReservationsByCustomerId(Long customerId);
     List<ReservationDTO> searchReservationsByDate(Date date);
-
-
+    void approveReservation(Long reservationId);
+    void rejectReservation(Long reservationId);
 }

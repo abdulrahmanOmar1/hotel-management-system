@@ -1,6 +1,7 @@
 package org.example.finalprojectweb.services.implementations;
 
 
+import org.example.finalprojectweb.DTO.PasswordChangeRequest;
 import org.example.finalprojectweb.DTO.UserDTO;
 import org.example.finalprojectweb.entity.User;
 import org.example.finalprojectweb.exceptions.ResourceNotFoundException;
@@ -80,7 +81,25 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         userRepository.delete(user);
     }
+    @Override
+    public UserDTO signUp(UserDTO userDTO) {
+        // Set the role to CUSTOMER
+        userDTO.setRole(User.Role.CUSTOMER.name());
+        return createUser(userDTO);
+    }
+    @Override
+    public boolean changePassword(Long userId, PasswordChangeRequest passwordChangeRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
+        if (passwordChangeRequest.getOldPassword().equals(user.getPass())) {
+            user.setPass(passwordChangeRequest.getNewPassword());
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
     private UserDTO convertToDto(User user) {
         UserDTO userDto = new UserDTO();
         userDto.setId(user.getId());

@@ -22,10 +22,8 @@ public class HouseKeepingTask {
 
     private String taskDescription;
 
-    @Temporal(TemporalType.DATE)
     private Date taskDate;
 
-    @Temporal(TemporalType.DATE)
     private Date completedDate;
 
     @Enumerated(EnumType.STRING)

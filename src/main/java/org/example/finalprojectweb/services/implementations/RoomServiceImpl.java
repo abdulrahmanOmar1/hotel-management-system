@@ -2,6 +2,7 @@ package org.example.finalprojectweb.services.implementations;
 
 
 import org.example.finalprojectweb.DTO.RoomDTO;
+import org.example.finalprojectweb.DTO.RoomInfoDTO;
 import org.example.finalprojectweb.entity.Room;
 import org.example.finalprojectweb.exceptions.ResourceNotFoundException;
 import org.example.finalprojectweb.repository.RoomRepository;
@@ -42,6 +43,8 @@ public class RoomServiceImpl implements RoomService {
         existingRoom.setRoomNo(roomDTO.getRoomNo());
         existingRoom.setType(roomDTO.getType());
         existingRoom.setPrice(roomDTO.getPrice());
+        existingRoom.setSize(roomDTO.getSize());
+        existingRoom.setCapacity(roomDTO.getCapacity());
         existingRoom.setStatus(Room.Status.valueOf(roomDTO.getStatus()));
 
         Room updatedRoom = roomRepository.save(existingRoom);
@@ -61,6 +64,48 @@ public class RoomServiceImpl implements RoomService {
         return rooms.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public List<RoomDTO> getAvailableRooms() {
+        List<Room> rooms = roomRepository.findByStatus(Room.Status.AVAILABLE);
+        return rooms.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoomDTO> getreservedRooms() {
+
+        List<Room> rooms = roomRepository.findByStatus(Room.Status.RESERVED);
+        return rooms.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+    }
+    @Override
+    public List<RoomInfoDTO> getAvailableRoomsInfo() {
+        List<Room> rooms = roomRepository.findByStatus(Room.Status.AVAILABLE);
+        return rooms.stream()
+                .map(this::convertToInfoDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoomInfoDTO> getReservedRoomsInfo() {
+        List<Room> rooms = roomRepository.findByStatus(Room.Status.RESERVED);
+        return rooms.stream()
+                .map(this::convertToInfoDto)
+                .collect(Collectors.toList());
+    }
+    private RoomInfoDTO convertToInfoDto(Room room) {
+        RoomInfoDTO roomInfoDTO = new RoomInfoDTO();
+        roomInfoDTO.setRoomNo(room.getRoomNo());
+        roomInfoDTO.setType(room.getType());
+        roomInfoDTO.setPrice(room.getPrice());
+        roomInfoDTO.setStatus(room.getStatus().name());
+        roomInfoDTO.setCapacity(room.getCapacity());
+        roomInfoDTO.setSize(room.getSize());
+        return roomInfoDTO;
     }
 
     private RoomDTO convertToDto(Room room) {

@@ -1,6 +1,7 @@
 package org.example.finalprojectweb.services.interfaces;
 
 
+import org.example.finalprojectweb.DTO.PasswordChangeRequest;
 import org.example.finalprojectweb.DTO.UserDTO;
 import org.example.finalprojectweb.entity.User;
 
@@ -14,4 +15,7 @@ public interface UserService {
     void deleteUser(Long id);
     List<UserDTO> getAllUsers();
     Optional<User> Login(String email, String password);
+    UserDTO signUp(UserDTO userDTO);
+    boolean changePassword(Long userId, PasswordChangeRequest passwordChangeRequest);
+
 }

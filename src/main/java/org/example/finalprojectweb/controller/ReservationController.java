@@ -1,8 +1,8 @@
 package org.example.finalprojectweb.controller;
 
-
 import org.example.finalprojectweb.DTO.ReservationDTO;
 import org.example.finalprojectweb.services.interfaces.ReservationService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +39,7 @@ public class ReservationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ReservationDTO> updateReservation(@RequestBody ReservationDTO reservationDTO,
-                                                            @PathVariable Long id) {
+    public ResponseEntity<ReservationDTO> updateReservation(@RequestBody ReservationDTO reservationDTO, @PathVariable Long id) {
         ReservationDTO updatedReservation = reservationService.updateReservation(reservationDTO, id);
         return new ResponseEntity<>(updatedReservation, HttpStatus.OK);
     }
@@ -50,19 +49,34 @@ public class ReservationController {
         reservationService.deleteReservation(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
     @GetMapping("/searchByName/{customerName}")
-    public ResponseEntity<List<ReservationDTO>> searchReservationsBycustomerName(@PathVariable String customerName) {
+    public ResponseEntity<List<ReservationDTO>> searchReservationsByCustomerName(@PathVariable String customerName) {
         List<ReservationDTO> reservations = reservationService.searchReservationsByCustomerName(customerName);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
+
     @GetMapping("/searchById/{customerId}")
-    public ResponseEntity<List<ReservationDTO>> searchReservationsBycustomerId(@PathVariable Long customerId ) {
+    public ResponseEntity<List<ReservationDTO>> searchReservationsByCustomerId(@PathVariable Long customerId) {
         List<ReservationDTO> reservations = reservationService.searchReservationsByCustomerId(customerId);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
+
     @GetMapping("/searchByDate/{date}")
-    public ResponseEntity<List<ReservationDTO>> searchReservationsByDate(@PathVariable Date date) {
+    public ResponseEntity<List<ReservationDTO>> searchReservationsByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         List<ReservationDTO> reservations = reservationService.searchReservationsByDate(date);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
+
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<Void> approveReservation(@PathVariable Long id) {
+        reservationService.approveReservation(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/reject/{id}")
+    public ResponseEntity<Void> rejectReservation(@PathVariable Long id) {
+        reservationService.rejectReservation(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

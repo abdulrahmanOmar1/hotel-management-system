@@ -2,6 +2,7 @@ package org.example.finalprojectweb.controller;
 
 
 import org.example.finalprojectweb.DTO.RoomDTO;
+import org.example.finalprojectweb.DTO.RoomInfoDTO;
 import org.example.finalprojectweb.services.interfaces.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,4 +49,27 @@ public class RoomController {
         roomService.deleteRoom(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<RoomDTO>> getAvailableRooms() {
+        List<RoomDTO> rooms = roomService.getAvailableRooms();
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+    @GetMapping("/reserved")
+    public ResponseEntity<List<RoomDTO>> getreservedRooms() {
+        List<RoomDTO> rooms = roomService.getreservedRooms();
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+    @GetMapping("/available/info")
+    public ResponseEntity<List<RoomInfoDTO>> getAvailableRoomsInfo() {
+        List<RoomInfoDTO> rooms = roomService.getAvailableRoomsInfo();
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
+    @GetMapping("/reserved/info")
+    public ResponseEntity<List<RoomInfoDTO>> getReservedRoomsInfo() {
+        List<RoomInfoDTO> rooms = roomService.getReservedRoomsInfo();
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
 }

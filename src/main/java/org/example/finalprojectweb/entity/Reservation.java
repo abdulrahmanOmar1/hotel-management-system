@@ -26,5 +26,14 @@ public class Reservation {
     private int numberOfDays;
     private double price;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
+    public enum Status {
+        PENDING,
+        APPROVED,
+        REJECTED,
+        RESERVED,
+        CANCELLED
+    }
 }

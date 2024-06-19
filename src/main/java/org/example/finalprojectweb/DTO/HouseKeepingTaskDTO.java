@@ -15,6 +15,4 @@ public class HouseKeepingTaskDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date completedDate;
     private String status;
-
-
 }
