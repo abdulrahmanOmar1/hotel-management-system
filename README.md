@@ -50,6 +50,9 @@ The Hotel Management System is designed to streamline operations for both hotel 
 <p>HouseKeepingTask is linked to rooms and the employees (User) who perform the tasks.</p>
 <p>These relationships ensure a structured and organized database schema, facilitating effective management of reservations, billing, and housekeeping tasks within the hotel management system.</p>
 
+# This is our database that we will use while building the project :
+https://github.com/abdulrahmanOmar1/hotel-management-system/blob/master/Dump20240619.sql
+
 
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SW-logo-clr.png" height="60">  
 ### Meaning of swgger :
