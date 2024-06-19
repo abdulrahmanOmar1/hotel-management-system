@@ -1,5 +1,6 @@
 # Inventory Management System
 ## Overview :
+
 The Hotel Management System is designed to streamline operations for both hotel employees and guests. This system offers a range of functionalities that enhance the customer experience and improve operational efficiency. It is developed using Spring Boot and provides a set of RESTful APIs to support web and mobile interfaces. The system ensures secure, role-based access control, allowing different functionalities for admin and customer roles. The project includes detailed API documentation, secure JWT-based authentication, and the use of Docker for easy deployment.
  ## ERD (Entity Relationship Diagram):
 
@@ -61,6 +62,7 @@ http://localhost:9090/swagger-ui/index.html#/
 ## Testing with Postman <img src="https://www.svgrepo.com/show/354202/postman-icon.svg" height="60">
 A Postman collection containing tests for all endpoints of this project has been included. You can import this collection into Postman for testing purposes.
 
+https://github.com/abdulrahmanOmar1/hotel-management-system/blob/master/swagger.json
 ## Docker🐋
 <p><strong>DockerHub Repository:</strong> <a href="https://hub.docker.com/repositories/abdulrahamnomar1">https://hub.docker.com/repositories/abdulrahamnomar1</a></p>
 
@@ -125,3 +127,4 @@ Once the container is running, you can access the Hotel Management System throug
 - Postman collection for testing scenarios
 - Database initialization with sample data
 - Data validation and proper exception handling
+
