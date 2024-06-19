@@ -127,4 +127,17 @@ Once the container is running, you can access the Hotel Management System throug
 - Postman collection for testing scenarios
 - Database initialization with sample data
 - Data validation and proper exception handling
+  
+<hr>
 
+# This project was completed by:
+
+### Abdulrahman Omar
+- Student ID: 1201811
+- Email: aboodomaral@gmail.com
+
+### Yousef Injas
+- Student ID: 1200643
+- Email: injasyousef5@gmail.com
+
+We hope you find the features we developed useful and that the project meets your expectations.
