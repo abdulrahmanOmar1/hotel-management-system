@@ -144,3 +144,33 @@ Once the container is running, you can access the Hotel Management System throug
 - Email: injasyousef5@gmail.com
 
 We hope you find the features we developed useful and that the project meets your expectations.
+
+# What we learned from this project 
+**Application Design and Architecture:**
+- Design complex applications like Hotel Management Systems, defining entities, relationships, and business logic.
+- Implement RESTful APIs using Spring Boot for frontend-backend communication.
+
+**Database Management:**
+- Manage entity relationships and database operations in the DAO layer.
+- Ensure data integrity through transactions and migrations.
+
+**Security Practices:**
+- Implement JWT-based authentication and role-based access control.
+- Secure sensitive data and prevent common vulnerabilities.
+
+**Containerization and Deployment:**
+- Use Docker for containerization, deployment, and scalability.
+- Manage multi-container applications with DockerHub and docker-compose.
+ibility.
+
+**Collaborative Development:**
+- Use Git and GitHub for collaborative development, including branching and pull requests.
+- Follow best practices for version control.
+
+**Testing and Validation:**
+- Implement data validation and exception handling.
+- Use Postman to simulate user journeys and validate API functionality.
+
+**Project Management and Documentation:**
+- Organize tasks, milestones, and deadlines.
+- Write clear documentation (e.g., README.md) for project overview and setup instructions.
