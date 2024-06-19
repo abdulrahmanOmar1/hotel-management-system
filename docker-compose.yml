@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web-app:
+    build: .
+    container_name: project2hotel-management-system
+    ports:
+      - "9090:9090"
+    networks:
+      - hotel-system-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/HotalSystem?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: abood@123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SERVER_PORT: 9090
+      APPLICATION_SECURITY_JWT_SECRET_KEY: MySuperSecretKey123MySuperSecretKey123MySuperSecretKey123MySuperSecretKey123MySuperSecretKey123MySuperSecretKey123MySuperSecretKey123MySuperSecretKey123
+      APPLICATION_SECURITY_JWT_EXPIRATION: 8640000
+      APPLICATION_SECURITY_JWT_REFRESH_TOKEN_EXPIRATION: 6048000
+
+networks:
+  hotel-system-network:
+    driver: bridge
